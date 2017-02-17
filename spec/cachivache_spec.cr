@@ -1,9 +1,10 @@
 require "./spec_helper"
 
 describe Cachivache do
-  # TODO: Write tests
+  cache = Cachivache::Cache.new
 
-  pending "works" do
-    false.should eq(true)
+  it "stores a value that doesn't expire" do
+    cache["key"] = "value"
+    cache["key"].should eq("value")
   end
 end
