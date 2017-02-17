@@ -35,4 +35,30 @@ describe Cachivache do
     sleep 1
     expect_raises { cache["key"] }
   end
+
+  describe ".entries" do
+    it "starts with no entries" do
+      cache.entries.should eq(0)
+    end
+
+    it "counts stored entries" do
+      cache["key1"] = "value"
+      cache.entries.should eq(1)
+
+      cache["key2"] = "value"
+      cache.entries.should eq(2)
+
+      cache["key1"] = "othervalue"
+      cache.entries.should eq(2)
+    end
+
+    it "doesn't delete expired entries when counting" do
+      cache["key", Time.new + 1.second] = "value"
+      cache.entries.should eq(1)
+      sleep 1
+      cache.entries.should eq(1)
+      expect_raises { cache["key"] }
+      cache.entries.should eq(0)
+    end
+  end
 end

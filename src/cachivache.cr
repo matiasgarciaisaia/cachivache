@@ -33,6 +33,10 @@ module Cachivache
       end
     end
 
+    def entries
+      @storage.size
+    end
+
     struct Entry
       def initialize(@value : String, @expiration : Time?)
       end
