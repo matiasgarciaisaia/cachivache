@@ -19,4 +19,13 @@ describe Cachivache do
     cache["key", Time.new - 1.second] = "value"
     cache["key"]?.should eq(nil)
   end
+
+  it "raises when accessing an inexsistent key" do
+    expect_raises { cache["key"] }
+  end
+
+  it "raises when accessing an expired key" do
+    cache["key", Time.new - 1.second] = "value"
+    expect_raises { cache["key"] }
+  end
 end
