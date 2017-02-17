@@ -14,14 +14,22 @@ module Cachivache
     end
 
     def [](key)
+      check_expiration(key)
       @storage[key].value
     end
 
     def []?(key)
+      check_expiration(key)
       if entry = @storage[key]?
         entry.value
       else
         nil
+      end
+    end
+
+    def check_expiration(key, now = Time.new)
+      if entry = @storage[key]?
+        @storage.delete(key) if entry.expired? now
       end
     end
 
@@ -31,6 +39,14 @@ module Cachivache
 
       getter value
       getter expiration
+
+      def expired?(now = Time.new)
+        if expiration = @expiration
+          expiration <= now
+        else
+          false
+        end
+      end
     end
   end
 end

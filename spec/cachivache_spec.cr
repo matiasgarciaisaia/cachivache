@@ -28,4 +28,11 @@ describe Cachivache do
     cache["key", Time.new - 1.second] = "value"
     expect_raises { cache["key"] }
   end
+
+  it "forgets entries after their expiration time" do
+    cache["key", Time.new + 1.second] = "value"
+    cache["key"].should eq("value")
+    sleep 1
+    expect_raises { cache["key"] }
+  end
 end
