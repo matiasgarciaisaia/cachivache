@@ -7,4 +7,9 @@ describe Cachivache do
     cache["key"] = "value"
     cache["key"].should eq("value")
   end
+
+  it "stores a value with expiration date" do
+    cache["key", Time.new + 3.years] = "value" # hope the spec doesn't run that fast
+    cache["key"].should eq("value")
+  end
 end
