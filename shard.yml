@@ -1,0 +1,9 @@
+name: cachivache
+version: 0.1.0
+
+authors:
+  - Matias Garcia Isaia <mgarcia@manas.tech>
+
+crystal: 0.20.5
+
+license: MIT
