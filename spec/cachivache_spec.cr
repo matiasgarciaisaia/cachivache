@@ -61,4 +61,32 @@ describe Cachivache do
       cache.entries.should eq(0)
     end
   end
+
+  describe ".delete_expired" do
+    it "deletes expired entries" do
+      cache["key", Time.new + 1.second] = "value"
+      cache.entries.should eq(1)
+
+      sleep 1
+      cache.entries.should eq(1)
+      cache.delete_expired
+      cache.entries.should eq(0)
+    end
+
+    it "honours given 'now' time" do
+      cache["key", Time.new + 1.second] = "value"
+      cache.entries.should eq(1)
+      cache.delete_expired
+      cache.entries.should eq(1)
+      cache.delete_expired(Time.new + 1.second)
+      cache.entries.should eq(0)
+    end
+
+    it "doesn't delete anything if there are no expired entries" do
+      cache["key"] = "value"
+      cache.entries.should eq(1)
+      cache.delete_expired(Time.new + 1.second)
+      cache.entries.should eq(1)
+    end
+  end
 end

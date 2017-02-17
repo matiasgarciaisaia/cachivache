@@ -37,6 +37,12 @@ module Cachivache
       @storage.size
     end
 
+    def delete_expired(now = Time.new)
+      @storage.each do |key, entry|
+        @storage.delete(key) if entry.expired? now
+      end
+    end
+
     struct Entry
       def initialize(@value : String, @expiration : Time?)
       end
