@@ -1,7 +1,9 @@
 require "./spec_helper"
 
+cache = Cachivache::Cache.new
+
 describe Cachivache do
-  cache = Cachivache::Cache.new
+  Spec.before_each { cache = Cachivache::Cache.new }
 
   it "stores a value that doesn't expire" do
     cache["key"] = "value"
